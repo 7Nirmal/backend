@@ -1,0 +1,58 @@
+[
+  {
+     "position":"Java Lead",
+     "company":"Dynamic Systems Advanced Technology",
+     "location":"chennai",
+     "CTC":"9,00,000-12,00,000",
+     "experience":"6-10",
+     "skills":"java,github,springboot,MongoDB,microservices"
+  },
+  {
+     "position":"SENIOR ARCHITECT - MDM",
+     "company":"Lennox India Technology",
+     "location":"chennai",
+     "CTC":"",
+     "experience":"5-10",
+     "skills":"senior architect,programming"
+  },
+  {
+     "position":"Engineering Manager",
+     "company":"Global english",
+     "location":"Bangalore",
+     "CTC":"",
+     "experience":"5-11",
+     "skills":"testing,MI,cloud,AWS,.NET"
+  },
+  {
+     "position":"Backend ARCHITECT",
+     "company":"Spectral Consultants",
+     "location":"pune",
+     "CTC":"",
+     "experience":"5-18",
+     "skills":"Business process,Networking,XML,MySQL"
+  },
+  {
+     "position":"Consultant",
+     "company":"Virtusua",
+     "location":"Mumbai",
+     "CTC":"",
+     "experience":"5-10",
+     "skills":"core java,metadata,"
+  },
+  {
+     "position":"Consultant",
+     "company":"Virtusua",
+     "location":"Mumbai",
+     "CTC":"",
+     "experience":"5-10",
+     "skills":"core java,metadata"
+  },
+  {
+    "positon":"Front End Developer",
+    "company":"psiog",
+    "location":"gurugaon",
+    "CTC":"5,00,000",
+    "experience":"0-2",
+    "skills":"HTML,CSS,Javascript,React"
+  }
+]
