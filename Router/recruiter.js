@@ -13,9 +13,9 @@ return hashed;
 }
 
 router.post("/logup", async function (req, res) {
-  const { username, password } = req.body;
-  console.log(username, password);
-  const userDB = await checkrecruiter (username);
+  const { email, password } = req.body;
+  console.log(email, password);
+  const userDB = await checkrecruiter (email);
   console.log(userDB);
 
   if (userDB){
@@ -23,14 +23,14 @@ router.post("/logup", async function (req, res) {
   }
 else{
   const hashedpass = await hashedpassword(password);
-  const result = await createrecruiter(username, hashedpass);
+  const result = await createrecruiter(email, hashedpass);
   res.send(result);
 }
 });
 
 router.post("/login",async function(req, res) {
-  const { username, password } = req.body;
-  const userDB = await checkrecruiter (username);
+  const { email, password } = req.body;
+  const userDB = await checkrecruiter (email);
   if(!userDB){
     res.status(401).send({message: "Invalid username or password"});
   }

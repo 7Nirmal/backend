@@ -2,22 +2,22 @@ import { client } from "../index.js";
 
 
 
-export function createuser(username, password) {
-    return client.db("jobseeker").collection("users").insertOne({ username: username, password: password });
+export function createuser( password,email) {
+    return client.db("jobseeker").collection("users").insertOne({ password: password,email:email});
 }
 
-export function createrecruiter(username, password) {
-    return client.db("jobseeker").collection("recruiters").insertOne({ username: username, password: password });
+export function createrecruiter(email, password) {
+    return client.db("jobseeker").collection("recruiters").insertOne({ email: email, password: password });
 }
 
-export  function checkrecruiter (username) {
+export  function checkrecruiter (email) {
 
-    return client.db("jobseeker").collection("recruiters").findOne({ username: username});
+    return client.db("jobseeker").collection("recruiters").findOne({ email: email});
 
 }
 
-export  function checkuser (username) {
+export  function checkuser (email) {
 
-    return client.db("jobseeker").collection("users").findOne({ username: username});
+    return client.db("jobseeker").collection("users").findOne({ email: email});
 
 }

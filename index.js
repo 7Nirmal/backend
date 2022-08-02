@@ -93,7 +93,7 @@ app.get('/', function (req, res) {
 //   const result = await client.db("movies").collection("movies").find({}).toArray();
 //   res.send(result);
 // })
-app.post("/jobdetails",async function (request, response){
+app.post("/jobdetails",auth , async function (request, response){
   const data = request.body;
   console.log(data);
   const result = await client.db("jobseeker").collection("jobdetails").insertOne(data);
@@ -102,7 +102,7 @@ app.post("/jobdetails",async function (request, response){
 })
 
 
-app.get("/jobdetails", async function (req, res) {
+app.get("/jobdetails",auth, async function (req, res) {
   const result = await client.db("jobseeker").collection("jobdetails").find({}).toArray();
   res.send(result);
 })
@@ -125,12 +125,21 @@ app.get("/jobdetails/:id",async  function (request, response) {
   job ? response.send(job) : response.status(404).send({msg:"job not found"})
   })
 
+  app.post("/applied",async  function (request, response) {
+    const data = request.body;
+    console.log(data);
+    const result = await client.db("jobseeker").collection("appliedjobs").insertOne(data);
+    response.send(result);
+    })
+
 
   app.delete("/jobdetails/:id",async  function (request, response) {
     const {id} = request.params;
     const job =  await client.db("jobseeker").collection("jobdetails").deleteOne({_id:ObjectId(id)}); // connecting from mongoDB
     job ? response.send(job) : response.status(404).send({msg:"job not found"})
     })
+
+
 
 app.use("/user",userRouter);
 app.use("/recruiter",recruiterRouter);

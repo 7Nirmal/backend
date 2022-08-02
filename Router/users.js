@@ -14,9 +14,8 @@ return hashed;
 }
 
 router.post("/logup", async function (req, res) {
-  const { username, password } = req.body;
-  console.log(username, password);
-  const userDB = await checkuser (username);
+  const {password,email } = req.body;
+  const userDB = await checkuser (email);
   console.log(userDB);
 
   if (userDB){
@@ -24,14 +23,15 @@ router.post("/logup", async function (req, res) {
   }
 else{
   const hashedpass = await hashedpassword(password);
-  const result = await createuser(username, hashedpass);
+  const result = await createuser( hashedpass,email);
   res.send(result);
 }
 });
 
 router.post("/login",async function(req, res) {
-  const { username, password } = req.body;
-  const userDB = await checkuser (username);
+  const { password,email } = req.body;
+  const userDB = await checkuser (email) ;
+  console.log(userDB);
   if(!userDB){
     res.status(401).send({message: "Invalid username or password"});
   }
@@ -47,6 +47,21 @@ else{
 }
 
 }
+})
+
+
+router.post("/token-valid",async (req, res)=>{
+try{
+  const token  = req.header("x-auth-token");
+  if (!token) return res.status(401).send(false);
+  const verified =   jwt.verify(token, process.env.SECRET_KEY);
+ return res.send({message:"valid token"});
+}
+catch(err)
+  {
+    res.status(500).send({message:err.message})
+  }
+
 })
 
 export const userRouter = router;
