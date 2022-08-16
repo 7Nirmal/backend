@@ -18,6 +18,7 @@ import moment from "moment";
  dotenv.config();
 const PORT = process.env.PORT;
 // const MONGO_URL = "mongodb://127.0.0.1";
+const MONGO_URL = process.env.MONGO_URL;
 app.use(cors());
 
 // async function createConnection() {
@@ -33,7 +34,7 @@ app.use(cors());
 
 async function dbConnect() {
   try {
-    await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}@cluster0.xolfxss.mongodb.net/jobseeker?retryWrites=true&w=majority`,
+    await mongoose.connect(MONGO_URL,
       { useNewUrlParser: true }
     );
     console.log("MongoDb connected successfully");
