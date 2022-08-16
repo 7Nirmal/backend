@@ -5,7 +5,8 @@
      "location":"chennai",
      "CTC":"9,00,000-12,00,000",
      "experience":"6-10",
-     "skills":"java,github,springboot,MongoDB,microservices"
+     "skills":"java,github,springboot,MongoDB,microservices",
+     "appliedcandidates":[]
   },
   {
      "position":"SENIOR ARCHITECT - MDM",
@@ -13,7 +14,9 @@
      "location":"chennai",
      "CTC":"",
      "experience":"5-10",
-     "skills":"senior architect,programming"
+     "skills":"senior architect,programming",
+     "appliedcandidates":[]
+
   },
   {
      "position":"Engineering Manager",
@@ -21,7 +24,9 @@
      "location":"Bangalore",
      "CTC":"",
      "experience":"5-11",
-     "skills":"testing,MI,cloud,AWS,.NET"
+     "skills":"testing,MI,cloud,AWS,.NET",
+     "appliedcandidates":[]
+
   },
   {
      "position":"Backend ARCHITECT",
@@ -29,7 +34,9 @@
      "location":"pune",
      "CTC":"",
      "experience":"5-18",
-     "skills":"Business process,Networking,XML,MySQL"
+     "skills":"Business process,Networking,XML,MySQL",
+     "appliedcandidates":[]
+
   },
   {
      "position":"Consultant",
@@ -37,7 +44,10 @@
      "location":"Mumbai",
      "CTC":"",
      "experience":"5-10",
-     "skills":"core java,metadata,"
+     "skills":"core java,metadata,",
+     "appliedcandidates":[]
+
+
   },
   {
      "position":"Consultant",
@@ -45,7 +55,9 @@
      "location":"Mumbai",
      "CTC":"",
      "experience":"5-10",
-     "skills":"core java,metadata"
+     "skills":"core java,metadata",
+     "appliedcandidates":[]
+
   },
   {
     "positon":"Front End Developer",
@@ -53,6 +65,8 @@
     "location":"gurugaon",
     "CTC":"5,00,000",
     "experience":"0-2",
-    "skills":"HTML,CSS,Javascript,React"
+    "skills":"HTML,CSS,Javascript,React",
+    "appliedcandidates":[]
+
   }
 ]

@@ -40,7 +40,7 @@ const storedpassword = userDB.password;
 const ispassword = await bcrypt.compare(password, storedpassword);
 if(ispassword){
   const token = jwt.sign({id:userDB._id},process.env.SECRET_KEY);
-  res.send({message:"sucessfully signed in",token:token});
+  res.send({message:"sucessfully signed in",token:token,email:email,id:userDB._id});
 }
 else{
   res.status(401).send({message:"invalid username or password"});
