@@ -11,6 +11,8 @@ import dotenv from "dotenv";
 import {auth} from "./middleware/auth.js"
 import { ObjectId } from "mongodb";
 import moment from "moment";
+import multer from "multer";
+import {filedb} from "./Models/Filemodel.js"
 
  app.use (express.json());
  
@@ -21,14 +23,7 @@ const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 app.use(cors());
 
-// async function createConnection() {
-//   const client = new MongoClient(MONGO_URL); 
-//   await client.connect();
-//   console.log("Mongo is connected");
-//   return client;
-// }
 
-// export const client = await createConnection();
 
 
 
@@ -45,50 +40,26 @@ async function dbConnect() {
 
 export const mongoosedb = await dbConnect();
 
-
-// app.get("/candidatedetails",  async function (req, res) {
-//   const result = await client.db("jobseeker").collection("candidate").find({}).toArray();
-//   res.send(result);
-// })
+const upload = multer({ dest: 'uploads/' })
 
 
 
 
-// app.post("/candidate",async function (request, response){
-//   const data = request.body;
-//   console.log(data);
-//   const result = await client.db("jobseeker").collection("candidate").insertOne({data,appliedjobs:[]});
-//   console.log(result);
-//   response.send(result);
-// })
 
+  // app.post("/upload",upload.single("file"),async  function (request, response) {
+  //   try{
+  //     console.log(request.file);
 
-// app.post("/getcandidate", async function (req, res) {
-//   const { mail } = req.body;
-//   console.log(mail);
-//   const candidate = await client.db("jobseeker").collection("candidates").findOne({ "email": mail });
-//   candidate ? res.send(candidate): res.send("");
-// });
-
-
-
-
-  app.post("/applied",async  function (request, response) {
-    const {job,candidate} = request.body;
-    const date  = moment().format ("MMM DD yyy");  
-   const result = await client.db("jobseeker").collection("appliedjobs").insertOne({job:job,candidate:candidate,date:date});
-   response.send(result);
-    })
+  //   response.send(request.file);
+  //   }
+  //   catch(err){
+  //     response.send({message:err.message});
+  //   }
+    
+  //   })
 
 
   
-
-    app.post("/getcandidate/:id",  async function (req, res) {
-      const {id} = req.params
-      const data =req.body;
-      const updatejob = await client.db("jobseeker").collection("jobdetails").updateOne({_id:ObjectId(id)},{$set:{data}});
-      res.send(updatejob);
-      })
 
 
 

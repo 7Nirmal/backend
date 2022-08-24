@@ -60,7 +60,6 @@ const appliedjob = {
   company: job.company,
   location: job.location,
   CTC: job.CTC,
-  isapplied:true,
   status:"",
   appliedDate: moment().format('YYYY-MM-DD')
 }
@@ -110,7 +109,7 @@ reject.forEach((obj,index)=>{
   }
 })
 await seeker.save();
-  res.send(seeker);
+  res.send(seeker);0
 
  
 })
@@ -122,7 +121,7 @@ const fulldate = new Date (`${time}`)
  const date = fulldate.getDate()+":"+(fulldate.getMonth()+1)+":"+fulldate.getFullYear()+" at "+fulldate.getHours()+":"+fulldate.getMinutes();
 const job = await jobseeker.findOne({_id:mongoose.Types.ObjectId(id)});
 const result = job.appliedcandidates.slice(index, index+1);
-job.appliedcandidates.splice(index, 1);
+await job.appliedcandidates.splice(index, 1);
 result[0].show = false;
 result[0].status = "S" ;
 result[0].on = date;
@@ -130,8 +129,8 @@ result[0].on = date;
  job.appliedcandidates.push(result[0]);
 await job.save();
 const seeker = await candidatedb.findOne({email:email});
-const schedule = seeker.appliedjobs;
-schedule.forEach((obj,index)=>{
+ const schedule = seeker.appliedjobs;
+schedule.forEach((obj)=>{
   if(obj.jobid==id){
      obj.status ="SCHEDULED ON" +"  " + date;
    seeker.appliedjobs.push(obj);
