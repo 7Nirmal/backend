@@ -7,6 +7,20 @@ import {mongoose} from "mongoose";
 
 const router = express.Router();
 
+//api to get resume
+
+router.get("/getresume/:userid",async function (req,res){
+  try{
+const {userid} = req.params;
+const candidate = await candidatedb.findOne({_id:mongoose.Types.ObjectId(userid)})
+const resume = candidate.resume;
+res.send({resume});
+  }
+   catch(err){
+    res.send({messgae: err.message});
+   }
+});
+
 router.post("/getcandidate", async function (req, res) {
 
   try{
@@ -24,8 +38,10 @@ router.post("/getcandidate", async function (req, res) {
 
 router.post("/candidate",async function (request, response){
 try{
-const newcandidate = await candidatedb(request.body);
-await newcandidate.save();
+  const {data} = request.body;
+  const {resume} = request.body;
+   const newcandidate = await candidatedb({data,resume});
+ await newcandidate.save();
 response.send(newcandidate);
 } 
 catch(err){
@@ -41,8 +57,7 @@ router.post("/updatecandidate/:id",  async function (req, res) {
     // console.log(objid);
   //  //console.log(`"${id}"`);
   const updatecandidate = await candidatedb.findOneAndUpdate(
-    {_id:mongoose.Types.ObjectId(id)},
-    req.body
+    {_id:mongoose.Types.ObjectId(id)},{data: req.body},{new: true}
   )
   res.send({message:"sucessfully updated"});
   }

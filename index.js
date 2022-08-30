@@ -46,22 +46,6 @@ const upload = multer({ dest: 'uploads/' })
 
 
 
-  // app.post("/upload",upload.single("file"),async  function (request, response) {
-  //   try{
-  //     console.log(request.file);
-
-  //   response.send(request.file);
-  //   }
-  //   catch(err){
-  //     response.send({message:err.message});
-  //   }
-    
-  //   })
-
-
-  
-
-
 
 app.use("/user",userRouter);
 app.use("/recruiter",recruiterRouter);

@@ -22,9 +22,38 @@ router.post("/jobdetails", async function (request, response) {
 });
 
 
+router.get("/jobdetails/recruiter",auth,async function(req, res){
+
+  try{
+    const result = await jobseeker.find();
+    res.send(result);
+  }
+catch(err){
+  res.send({message: err.message});
+}
+})
+
+
 router.get("/jobdetails", auth,async function (req, res) {
-  const result = await jobseeker.find();
-  res.send(result);
+
+  try{
+    const {location} = req.query;
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const startindex = (page-1) * limit;
+    const endindex = page*limit;
+    const result = await jobseeker.find();
+    const buttons = [];
+    for (let i=1;i<=Math.ceil(result.length/limit);i++){
+      buttons.push(i);
+    }
+     const endresult = result.slice(startindex, endindex);
+    res.send({data:endresult,buttons:buttons});
+  }
+  catch (err){
+    response.send(err.message);
+  }
+
 })
 
 
@@ -35,15 +64,16 @@ router.post("/applyjob",async function (req, res) {
 const jobdata = await jobseeker.findOne({_id:mongoose.Types.ObjectId(job._id)});
 
 const appliedcandidate = {
-  firstname:user.firstname,
-  lastname:user.lastname,
-  email:user.email,
-  contact:user.number,
-  degree:user.degree,
-  department:user.department,
-  university:user.university,
-  batch:user.batch,
-  role:user.role,
+  id:user._id,
+  firstname:user.data.firstname,
+  lastname:user.data.lastname,
+  email:user.data.email,
+  contact:user.data.number,
+  degree:user.data.degree,
+  department:user.data.department,
+  university:user.data.university,
+  batch:user.data.batch,
+  role:user.data.role,
   show:true,
   status:"",
   on:"",
@@ -74,16 +104,28 @@ res.send({message:"job applied successfully"})
   }
 })
 router.get("/getjob/:id",async function(req, res) {
-  const {id} = req.params;
-  const job = await jobseeker.findOne({_id:mongoose.Types.ObjectId(id)});
-  res.send(job);
+  try{
+    const {id} = req.params;
+    const job = await jobseeker.findOne({_id:mongoose.Types.ObjectId(id)});
+    res.send(job);
+  }
+  catch (err) {
+    res.send({message: err.message});
+  }
+ 
 
 })
 
 router.post ("/editjob/:id",auth,async function (req,res){
-  const {id} = req.params;
-  const editjob = await jobseeker.findOneAndUpdate({_id:mongoose.Types.ObjectId(id)},req.body);
-  res.send({message:"job edited sucessfully"});
+  try{
+    const {id} = req.params;
+    const editjob = await jobseeker.findOneAndUpdate({_id:mongoose.Types.ObjectId(id)},req.body);
+    res.send({message:"job edited sucessfully"});
+  }
+  catch (err){
+    res.send(err.message);
+  }
+ 
 })
 
 router.post ("/reject/:id/:index",async function (req,res){
@@ -97,9 +139,9 @@ router.post ("/reject/:id/:index",async function (req,res){
 
    job.appliedcandidates.push(result[0]);
   await job.save();
-  const {email} = req.body;
-   const seeker = await candidatedb.findOne({email:email});
-const reject = seeker.appliedjobs;
+  const {userid} = req.body;
+   const seeker = await candidatedb.findOne({_id:mongoose.Types.ObjectId(userid)});
+   const reject = seeker.appliedjobs;
 
 reject.forEach((obj,index)=>{
   if(obj.jobid==id){
@@ -109,14 +151,14 @@ reject.forEach((obj,index)=>{
   }
 })
 await seeker.save();
-  res.send(seeker);0
+  res.send(seeker);
 
  
 })
 
 router.post("/schedule/:id/:index",async function (req, res){
   const{id,index} = req.params;
-const {time,email} = req.body;
+const {time,userid} = req.body;
 const fulldate = new Date (`${time}`)
  const date = fulldate.getDate()+":"+(fulldate.getMonth()+1)+":"+fulldate.getFullYear()+" at "+fulldate.getHours()+":"+fulldate.getMinutes();
 const job = await jobseeker.findOne({_id:mongoose.Types.ObjectId(id)});
@@ -128,14 +170,21 @@ result[0].on = date;
 
  job.appliedcandidates.push(result[0]);
 await job.save();
-const seeker = await candidatedb.findOne({email:email});
- const schedule = seeker.appliedjobs;
-schedule.forEach((obj)=>{
-  if(obj.jobid==id){
-     obj.status ="SCHEDULED ON" +"  " + date;
-   seeker.appliedjobs.push(obj);
-  }
-})
+const seeker = await candidatedb.findOne({_id:mongoose.Types.ObjectId(userid)});
+ const getindex = seeker.appliedjobs.findIndex(obj=>obj.jobid==id);
+ const schedule = seeker.appliedjobs[getindex]
+ seeker.appliedjobs.splice(getindex, 1);
+ schedule.status = "SCHEDULED ON" +"  " + date;
+ seeker.appliedjobs.push(schedule);
+
+ 
+
+// schedule.forEach((obj)=>{
+//   if(obj.jobid==id){
+//      obj.status ="SCHEDULED ON" +"  " + date;
+//    seeker.appliedjobs.push(obj);
+//   }
+// })
 await seeker.save();
 res.send(seeker);
  })
