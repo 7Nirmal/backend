@@ -25,9 +25,8 @@ router.post("/getcandidate", async function (req, res) {
 
   try{
     const { mail } = req.body;
-    console.log(mail);
-    const candidate = await candidatedb.findOne({ email: mail });
-   candidate? res.status(200).send({candidate,message:true}): res.status(400).send({message:false})
+    const candidate = await candidatedb.findOne({useremail: mail });
+  candidate? res.status(200).send({candidate,message:true}): res.status(400).send({message:false})
   }
   catch (err){
     res.status(400).send({message: err.message});
@@ -38,9 +37,10 @@ router.post("/getcandidate", async function (req, res) {
 
 router.post("/candidate",async function (request, response){
 try{
+  const{useremail} = request.body;
   const {data} = request.body;
   const {resume} = request.body;
-   const newcandidate = await candidatedb({data,resume});
+   const newcandidate = await candidatedb({useremail,data,resume});
  await newcandidate.save();
 response.send(newcandidate);
 } 
