@@ -14,7 +14,7 @@ return hashed;
 }
 
 router.post("/logup", async function (req, res) {
-  const {password,email } = req.body;
+  const {email,password } = req.body;
   const userDB = await checkuser (email);
   console.log(userDB);
 
